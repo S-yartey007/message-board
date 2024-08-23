@@ -1,8 +1,17 @@
-<p><%=message.user%> </p>
-<li>
-    <%=message.text%>
-</li>
-<li>
-    <%=message.added%>
-
-</li>
+<html>
+    <head>
+        <link rel="stylesheet" href="./styles.css">
+        <title>User</title>
+    </head>
+ 
+    <body>
+        <ul>
+            <% messagesFound.forEach(message => {%>
+            <%-include("initial",{message})  %>
+        <% })  %>
+        </ul>
+        <a href="/new">
+            <button>Create message</button>
+        </a>
+    </body>
+</html>

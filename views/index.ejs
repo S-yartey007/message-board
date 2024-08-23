@@ -6,7 +6,7 @@
     <body>
         <ul>
             <% messages.forEach(message => {%>
-             <%-include("message",{message:message}) %>
+            <%-include("initial",{message})  %>
         <% })  %>
         </ul>
         <a href="/new">

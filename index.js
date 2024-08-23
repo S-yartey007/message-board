@@ -3,10 +3,8 @@ import path from "path";
 import url from 'url';
 import 'dotenv/config.js'
 import homeRouter from "./routes/homeRouter.js";
-
 const port = process.env.PORT;
 const app = express()
-
 //Getting the dirname
 const filePath = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(filePath)
