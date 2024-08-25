@@ -7,7 +7,9 @@
     <body>
         <ul>
             <% messagesFound.forEach(message => {%>
-            <%-include("initial",{message})  %>
+                <p><%=message.user %></p>
+                <li><%=message.text  %></li>
+                <li><%=message.added  %></li>
         <% })  %>
         </ul>
         <a href="/new">

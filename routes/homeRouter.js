@@ -41,19 +41,22 @@ router.get("/new",(req,res)=> {
 
 router.post("/new",(req,res)=> {
     messages.push({ text: req.body.message, user: req.body.name, added: new Date()})
+    //console.log(messages)
     res.redirect("/")
 })
 
 
 router.get("/messages/:name",(req,res) => {
-  console.log(req.params.name)
 /* const message =  messages.forEach(message => {
     if(message.user === req.params.name) return message})
   if(message) res.render("message",{message})
  */
+    console.log(req.params.name)
+    console.log(messages)
+  
 const messagesFound = messages.filter(message => message.user === req.params.name)
     if(messagesFound.length >= 0) {
-      console.log(messagesFound)
+     console.log(messagesFound)
       res.render("message",{messagesFound})
     } else return
 })
