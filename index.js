@@ -1,27 +1,43 @@
-import express from "express"
-import path from "path";
-import url from 'url';
-import 'dotenv/config.js'
-import homeRouter from "./routes/homeRouter.js";
-const port = process.env.PORT;
-const app = express()
-//Getting the dirname
-const filePath = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(filePath)
+const express = require("express");
+const path = require("path");
+const app = express();
 
-//Setting the views
-app.set("views",path.join(__dirname,"views"))
-app.set("view engine","ejs");
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
-//Serving Static Assests
-const assetsPath = path.join(__dirname,"public");
-app.use(express.static(assetsPath));
+app.use(express.urlencoded({ extended: true }));
 
-//middleware
-app.use(express.urlencoded({extended: true}))
-app.use("/",homeRouter);
+let messages = [
+  { id: 1, text: "Hi there!", user: "Amando", added: new Date() },
+  { id: 2, text: "Hello World!", user: "Charles", added: new Date() },
+];
 
+app.get("/", (req, res) => {
+  res.render("index", { title: "Mini Messageboard", messages });
+});
 
-app.listen(port,()=> {
-    console.log(`Express connected at port : ${port}`)
-})
+app.get("/new", (req, res) => {
+  res.render("form");
+});
+
+app.post("/new", (req, res) => {
+  const { user, text } = req.body;
+  messages.push({ id: messages.length + 1, text, user, added: new Date() });
+  res.redirect("/");
+});
+
+app.get("/:id", (req, res) => {
+  const id = req.params.id;
+  const message = messages.find((message) => message.id === Number(id));
+  if (message) res.render("message", { message });
+  else res.status(404).send("message not found");
+});
+app.delete("/messages/:id", (req, res) => {
+  const id = req.params.id;
+  const updatedMessages = messages.filter((message) => message.id != id);
+  messages = updatedMessages;
+  res.json({ redirect: "/" });
+});
+
+app.listen(3000);
