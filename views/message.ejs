@@ -1,19 +1,27 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="./styles.css">
-        <title>User</title>
-    </head>
- 
-    <body>
-        <ul>
-            <% messagesFound.forEach(message => {%>
-                <p><%=message.user %></p>
-                <li><%=message.text  %></li>
-                <li><%=message.added  %></li>
-        <% })  %>
-        </ul>
-        <a href="/new">
-            <button>Create message</button>
-        </a>
-    </body>
+  <head>
+    <link rel="stylesheet" href="./styles.css" />
+    <title>User</title>
+  </head>
+
+  <body>
+    <div class="message">
+      <h1><%=message.user %></h1>
+      <h2><%=message.text %></h2>
+      <a href="#" class="delete-btn" data-id="<%= message.id %>">delete</a>
+      <a href="/">
+        <button>Home</button>
+      </a>
+    </div>
+    <script>
+      const deleteBtn = document.querySelector(".delete-btn");
+
+      deleteBtn.addEventListener("click", (e) => {
+        fetch(`/messages/${deleteBtn.dataset.id}`, { method: "DELETE" })
+          .then((response) => response.json())
+          .then((data) => (window.location = data.redirect))
+          .catch((err) => console.log(err));
+      });
+    </script>
+  </body>
 </html>
